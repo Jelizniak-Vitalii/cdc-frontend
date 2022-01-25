@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="back">
+    <button type="button" (click)="back()">
+      <mat-icon>keyboard_backspace_icon</mat-icon>
+    </button>
+  </div>
+  <h2 class="title">En Afrique</h2>
+  <div class="text">
+    <p>
+      Refrain :\nSoit fier de ton passé, confiant dans l’avenir,\nPour être le premier il te fallait vieillir !\nII\nLe fanion claque et s’élève\nAu-dessus du pont romain.\nLégionnaire marche sans trêve\nSur les pas de nos anciens\nLes médailles sonnent sur le tablier,\nSur l’épaule brille la hache du pionnier.\nHonneur fidélité.\nPremier régiment étranger de génie\nGrenade à sept flamme sur ta cuirasse brille.\nHonneur fidélité.\nII\nEn sondant, les baïonnettes\nChantent toutes le même refrain,\nIl faut faire place nette\nDéminer tout le terrain.\nLes grappins soulèvent des mines piégées,\nIl faut avancer au mépris du danger.\nHonneur fidélité.\nPremier régiment étranger de génie\nGrenade à sept flamme sur ta cuirasse brille.\nHonneur fidélité.\nIII\nUne seule devise aux lèvres :\nLegio patria nostra.\nLe lance-flammes ouvre la portière\nLégionnaire tu serviras.\nQuand le vert et rouge de ton fanion surgit\nC’est la débandade dans les rangs ennemis.\nHonneur fidélité.\nPremier régiment étranger de génie\nSapeur de combat sans crainte et sans répit.\nHonneur fidélité.",
+    </p>
+  </div>
+  <div class="media-footer">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        {{ state?.readableCurrentTime }}
+        <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
+        {{ state?.readableDuration }}
+      </mat-toolbar-row>
+      <mat-toolbar-row class="media-action-bar">
+        <button mat-button [disabled]="isFirstPlaying()" (click)="previous()">
+          <mat-icon mat-list-icon>skip_previous</mat-icon>
+        </button>
+        <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+          <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+        </button>
+        <button mat-button (click)="pause()" *ngIf="state?.playing">
+          <mat-icon mat-list-icon>pause</mat-icon>
+        </button>
+        <button  mat-button [disabled]="isLastPlaying()" (click)="next()">
+          <mat-icon mat-list-icon>skip_next</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</div>
