@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {CloudService} from "../services/cloud.service";
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 import {Observable, take} from "rxjs";
+import {AudioService} from "../services/audio.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,10 @@ import {Observable, take} from "rxjs";
 
 export class PlayerResolver {
   constructor(
-    private cloudService: CloudService,
+    public audioService: AudioService,
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any {
-    return this.cloudService.currentFile.pipe(take(1));
+    return this.audioService.currentFile.pipe(take(1));
   }
 }

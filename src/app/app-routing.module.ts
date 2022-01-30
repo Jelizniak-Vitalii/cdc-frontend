@@ -12,8 +12,15 @@ const routes: Routes = [
     resolve: { currentFile: PlayerResolver },
     canActivate: [PlayerGuard]
   },
-  { path: 'home', component: HomeComponent },
-  { path: "**", redirectTo: "" }
+  {
+    path: 'Liste-de-chansons',
+    component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'Liste-de-chansons'
+  }
 ];
 
 @NgModule({

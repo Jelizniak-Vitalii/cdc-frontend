@@ -1,15 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {StreamState} from "../../interfaces/stream-state";
 import {AudioService} from "../../services/audio.service";
-import {CloudService} from "../../services/cloud.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
+import {SpinnerService} from "../../services/spinner.service";
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+  styleUrls: ['./player.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerComponent implements OnInit, OnDestroy {
   state: StreamState | undefined;
@@ -20,9 +21,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     public audioService: AudioService,
-    public cloudService: CloudService,
     private _routes: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
+    private spinner: SpinnerService,
+
   ) {}
 
   ngOnInit() {
@@ -30,12 +33,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     if (!this.currentFile) {
       this.currentFile = JSON.parse(localStorage.getItem('currentFile')!);
     }
-
-    this.cloudService.getFiles()
-      .pipe(takeUntil(this.componentDestroy$))
-      .subscribe(files => {
-      this.files = files;
-    });
 
     this.audioService.getState()
       .pipe(takeUntil(this.componentDestroy$))
@@ -47,7 +44,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
   playStream(url: string) {
     this.audioService.playStream(url)
       .pipe(takeUntil(this.componentDestroy$))
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.cdr.markForCheck();
+      });
+
   }
 
   back() {
@@ -56,11 +56,12 @@ export class PlayerComponent implements OnInit, OnDestroy {
     localStorage.removeItem('currentFile');
     this.audioService.resetState();
     this.isActive = false;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/Liste-de-chansons']);
   }
 
   pause() {
     this.audioService.pause();
+    this.cdr.markForCheck();
   }
 
   play() {
@@ -69,10 +70,12 @@ export class PlayerComponent implements OnInit, OnDestroy {
       return this.playStream(this.currentFile.file.url)
     }
     this.audioService.play();
+    this.cdr.markForCheck();
   }
 
   stop() {
     this.audioService.stop();
+    this.cdr.markForCheck();
   }
 
   next() {
@@ -100,7 +103,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.cloudService.currentFile.next(null);
+    this.audioService.currentFile.next(null);
     this.componentDestroy$.next(true);
     this.componentDestroy$.complete();
   }

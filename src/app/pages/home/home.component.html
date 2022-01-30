@@ -3,23 +3,26 @@
     <span>Carnet de chants Légion Étrangère</span>
   </mat-toolbar>
   <div class="content">
+    <div class="search">
+      <input
+        placeholder="Recherche de musique"
+        type="search"
+        [formControl]="search">
+    </div>
     <mat-list color="primary">
-      <div class="search">
-        <mat-form-field class="example-form-field" appearance="fill">
-          <mat-label>Clearable input</mat-label>
-          <input [formControl]="search"  matInput type="text">
-          <button matSuffix mat-icon-button aria-label="Clear">
-            <mat-icon>search_icon</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
+
       <h3 mat-subheader>Chants</h3>
-      <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
-        <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
-        <h4 mat-line>{{ file.name }}</h4>
-        <h5 mat-line>by {{ file.artist }}</h5>
-        <mat-divider></mat-divider>
-      </mat-list-item>
+      <ng-container *ngIf="files.length; else filesNotFound">
+        <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
+          <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+          <h4 mat-line>{{ file.name }}</h4>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </ng-container>
+      <ng-template #filesNotFound>
+        <h3 *ngIf="!isChantsLoaded"></h3>
+        <h3 *ngIf="isChantsLoaded" class="files__not-found">Aucune chanson trouvée avec ce nom</h3>
+      </ng-template>
     </mat-list>
   </div>
 </div>

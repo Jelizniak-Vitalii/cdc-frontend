@@ -9,6 +9,9 @@ import {StreamState} from "../interfaces/stream-state";
 })
 export class AudioService {
 
+  currentFile = new BehaviorSubject(null);
+
+
   private state: StreamState = {
     playing: false,
     readableCurrentTime: '',
