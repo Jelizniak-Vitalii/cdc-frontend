@@ -28,6 +28,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
+              "src/.htaccess",
+              "src/index.php",
+              "src/composer.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",
@@ -45,7 +48,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "1mb",
                   "maximumError": "1mb"
                 },
                 {
@@ -88,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "y:build"
+            "browserTarget": "cdc-frontend:build"
           }
         },
         "test": {
@@ -100,7 +103,6 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -113,5 +115,5 @@
       }
     }
   },
-  "defaultProject": "y"
+  "defaultProject": "cdc-frontend"
 }
