@@ -20,6 +20,10 @@
     line-height: 35px;
     overflow: auto;
     max-height: 60vh;
+    p {
+      text-align: center;
+      white-space: nowrap;
+    }
   }
 
   .media-footer {
@@ -40,6 +44,14 @@
         width: 48px !important;
         font-size: 48px !important;
       }
+    }
+  }
+}
+
+@media (max-width: 340px) {
+  .container {
+    .text {
+      max-height: 43vh;
     }
   }
 }

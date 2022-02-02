@@ -7,15 +7,15 @@ import {PlayerGuard} from "./guards/player-guard";
 
 const routes: Routes = [
   {
+    path: 'Liste-de-chansons',
+    component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
     path: "player",
     component: PlayerComponent,
     resolve: { currentFile: PlayerResolver },
     canActivate: [PlayerGuard]
-  },
-  {
-    path: 'Liste-de-chansons',
-    component: HomeComponent,
-    pathMatch: 'full'
   },
   {
     path: '**',

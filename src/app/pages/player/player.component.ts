@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {StreamState} from "../../interfaces/stream-state";
 import {AudioService} from "../../services/audio.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -6,13 +14,17 @@ import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {SpinnerService} from "../../services/spinner.service";
 
+
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class PlayerComponent implements OnInit, OnDestroy {
+export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('chantText') chantText: ElementRef | undefined;
+
   state: StreamState | undefined;
   currentFile: any = null;
   files: Array<any> = [];
@@ -28,6 +40,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   ) {}
 
+
+
   ngOnInit() {
     this.currentFile = this._routes.snapshot.data['currentFile'];
     if (!this.currentFile) {
@@ -39,6 +53,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
       .subscribe(state => {
         this.state = state;
       });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.chantText) {
+      this.chantText.nativeElement.innerHTML = this.currentFile.file.text.replace(/NS/g, '<br>')
+    }
+    this.cdr.markForCheck();
   }
 
   playStream(url: string) {
