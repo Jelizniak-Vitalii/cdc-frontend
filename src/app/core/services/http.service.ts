@@ -1,13 +1,12 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import {Chants} from "../interfaces/chants.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class HttpService {
-
   url: string = environment.url;
 
   constructor(
@@ -15,10 +14,10 @@ export class HttpService {
   ) {}
 
   getAllChants() {
-    return this.http.get(`${this.url}allChants`);
+    return this.http.get<Chants[]>(`${this.url}allChants`);
   }
 
   getChantByName(name: string) {
-    return this.http.post(`${this.url}getChantsByName`, {name});
+    return this.http.post<Chants[]>(`${this.url}getChantsByName`, {name});
   }
 }

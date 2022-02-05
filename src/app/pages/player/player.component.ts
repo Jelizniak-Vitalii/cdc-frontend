@@ -7,12 +7,12 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {StreamState} from "../../interfaces/stream-state";
-import {AudioService} from "../../services/audio.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
-import {SpinnerService} from "../../services/spinner.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subject} from "rxjs";
+import { takeUntil } from "rxjs/operators";
+
+import { StreamState } from "../../core/interfaces";
+import { AudioService } from "../../core/services/audio.service";
 
 
 @Component({
@@ -20,7 +20,6 @@ import {SpinnerService} from "../../services/spinner.service";
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
-
 })
 export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('chantText') chantText: ElementRef | undefined;
@@ -36,11 +35,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     private _routes: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private spinner: SpinnerService,
-
   ) {}
-
-
 
   ngOnInit() {
     this.currentFile = this._routes.snapshot.data['currentFile'];
@@ -57,7 +52,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (this.chantText) {
-      this.chantText.nativeElement.innerHTML = this.currentFile.file.text.replace(/NS/g, '<br>')
+      this.chantText.nativeElement.innerHTML = this.currentFile.file.text;
     }
     this.cdr.markForCheck();
   }

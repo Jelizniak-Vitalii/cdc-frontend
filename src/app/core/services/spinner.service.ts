@@ -5,8 +5,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SpinnerService {
-
   spinnerStatus = new Subject<boolean>();
+
   private spinCounter = 0;
 
   show() {

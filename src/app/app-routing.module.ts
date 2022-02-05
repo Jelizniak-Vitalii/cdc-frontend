@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { PlayerComponent } from "./pages/player/player.component";
-import {HomeComponent} from "./pages/home/home.component";
-import {PlayerResolver} from "./resolvers/player-resolver";
-import {PlayerGuard} from "./guards/player-guard";
+import { HomeComponent } from "./pages/home/home.component";
+import { PlayerResolver } from "./core/resolvers/player-resolver";
+import { PlayerGuard } from "./core/guards/player-guard";
 
 const routes: Routes = [
   {
